@@ -63,27 +63,23 @@ app.get('/collectibles/:index', (req,res) => {
 
 //   Task: Create a route /shoes that filters the list of shoes based on query parameters.
 app.get('/shoes', (req,res) => {
-    const name = item.name
-    const age = item.age;
-    const type = item.type;
+    const minPrice = parseFloat(req.query['min-price'])
+    const maxPrice = parseFloat(req.query['max-price'])
+    const type = req.query.type;
 
+    let shoeFilter = shoes;
 
+    if (!isNaN(minPrice)){
+      shoeFilter = shoeFilter.filter(shoe => shoe.price >= minPrice)
+    }
+   if (!isNaN(maxPrice)) {
+      shoeFilter = shoeFilter.filter(shoe => shoe.price <= maxPrice)
+    }
+    if (type) {
+      shoeFilter = shoeFilter.filter(shoe => shoe.type.toLocaleLowerCase() === type.toLocaleLowerCase());
+    }
+ res.send(shoeFilter);
 })
-// Query Parameters:
-
-// min-price: Excludes shoes below this price.
-// max-price: Excludes shoes above this price.
-// type: Shows only shoes of the specified type.
-// No parameters: Responds with the full list of shoes.
-
-
-
-
-
-
-
-
-
 
 
 
